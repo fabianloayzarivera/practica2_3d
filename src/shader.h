@@ -1,5 +1,7 @@
 #pragma once
 #include "common.h"
+class Shader;
+typedef  std::shared_ptr<Shader> ShaderPtr;
 
 class Shader 
 {
@@ -12,10 +14,13 @@ private:
 	int vColorLoc;
 	glm::mat4 mvp;
 
-public:
-
+protected:
 	Shader(std::string vertexCode, std::string fragmentCode);
 	~Shader();
+
+public:
+	
+	static ShaderPtr create(const std::string&vertex, const std::string& fragment);
 
 	// Devuelve el identificador de OpenGL del programa
 	uint32_t	getId() const { return program; }
@@ -34,35 +39,11 @@ public:
 	int		getLocation(const char* name) const { return glGetUniformLocation(program, name); }
 
 	// Da valor a una variable uniform
-	void		setInt(int loc, int val) { if(loc != -1) glUniform1i(loc, val); }
-	void		setFloat(int loc, float val) { if (loc != -1) glUniform1f(loc, val); }
-	void		setVec3(int loc, const glm::vec3& vec) { if (loc != -1) glUniform3f(loc, vec.x, vec.y, vec.z); }
-	void		setVec4(int loc, const glm::vec4& vec) { if (loc != -1) glUniform4f(loc, vec.x, vec.y, vec.z, vec.w); }
-	void		setMatrix(int loc, const glm::mat4& matrix) { if(loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix)); }
+	static void		setInt(int loc, int val) { if(loc != -1) glUniform1i(loc, val); }
+	static void		setFloat(int loc, float val) { if (loc != -1) glUniform1f(loc, val); }
+	static void		setVec3(int loc, const glm::vec3& vec) { if (loc != -1) glUniform3f(loc, vec.x, vec.y, vec.z); }
+	static void		setVec4(int loc, const glm::vec4& vec) { if (loc != -1) glUniform4f(loc, vec.x, vec.y, vec.z, vec.w); }
+	static void		setMatrix(int loc, const glm::mat4& matrix) { if(loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix)); }
 
 };
 
-
-template < typename T > class SP
-{
-private:
-	T * pData;
-public:
-	SP(T* pValue) : pData(pValue)
-	{
-	}
-	~SP()
-	{
-		delete pData;
-	}
-
-	T& operator* ()
-	{
-		return *pData;
-	}
-
-	T* operator-> ()
-	{
-		return pData;
-	}
-};

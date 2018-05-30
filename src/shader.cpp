@@ -3,6 +3,15 @@
 #include <iostream>
 #include "vertex.h"
 
+ShaderPtr Shader::create(const std::string&vertex, const std::string& fragment) 
+{
+	std::shared_ptr<Shader> p(new Shader(vertex, fragment), [](Shader* p) {
+		delete p;
+	});
+	if (p->program == 0) p = nullptr;
+	return p;
+}
+
 Shader::Shader(std::string vertexCode, std::string fragmentCode) 
 {
 	int retCode;
@@ -74,5 +83,5 @@ void Shader::setupAttribs() const
 
 Shader::~Shader() 
 {
-	glDeleteProgram(program);
+	if(program) glDeleteProgram(program);
 }

@@ -43,7 +43,7 @@ bool init()
 	std::string vertexShaderSource = readString("data/vertex.glsl");
 	std::string fragmentShaderSource = readString("data/fragment.glsl");
 
-	std::shared_ptr<Shader> shader(new Shader(vertexShaderSource, fragmentShaderSource));
+	std::shared_ptr<Shader> shader(Shader::create(vertexShaderSource, fragmentShaderSource));
 
 	if (shader->getError().size() > 0)
 	{
