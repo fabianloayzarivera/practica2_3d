@@ -11,7 +11,7 @@ private:
 	glm::vec3 color;
 public:
 
-	Camera(const float width, const float height);
+	Camera(const float& fovy, const float& width, const float& height, const float& near, const float& far);
 
 	const glm::mat4& getProjection() const { return projection; }
 	void setProjection(const glm::mat4& proj) { projection = proj; }

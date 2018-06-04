@@ -81,8 +81,9 @@ int main() {
 
 	//State::defaultShader->use();
 	std::shared_ptr<World> world(new World());
-	std::shared_ptr<Camera> camera1(new Camera((float)SCREEN_WIDTH ,(float)SCREEN_HEIGHT));
+	std::shared_ptr<Camera> camera1(new Camera(60.0f,(float)SCREEN_WIDTH ,(float)SCREEN_HEIGHT,0.1f, 1000.0f));
 	camera1->setClearColor(glm::vec3(0, 0, 0));
+	camera1->setPosition(glm::vec3(0, 0, 6));
 	world->addEntity(camera1);
 
 	//--- Creating a buffer 

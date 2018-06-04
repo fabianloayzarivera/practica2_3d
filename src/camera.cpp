@@ -1,8 +1,8 @@
 #include "camera.h"
 
-Camera::Camera(const float width, const float height) 
+Camera::Camera(const float& fovy, const float& width, const float& height, const float& near, const float& far)
 {
-	projection = glm::perspective(glm::radians(60.0f), (width / height), 0.1f, 1000.0f);
+	projection = glm::perspective(glm::radians(fovy), (width / height), near, far);
 
 }
 
@@ -10,9 +10,10 @@ void Camera::prepare()
 {
 	State::projectionMatrix = this->getProjection();
 	glm::mat4 view = glm::mat4();
-	//view = glm::lookAt(glm::vec3(0, 0, 6), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); //NEED TO CHANGE THIS
-	view = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -6.0f));
-	view = glm::rotate(view, glm::radians(0.0f) *-1, glm::vec3(0, 1, 0));
+	
+	glm::quat quaternion(this->getRotation());
+	view = glm::rotate(glm::mat4(1.0f), glm::angle(quaternion) *-1, glm::axis(quaternion));
+	view = glm::translate(view, this->getPosition() * -1.0f);
 	State::viewMatrix = view;
 
 	glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
