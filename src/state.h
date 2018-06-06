@@ -6,7 +6,7 @@ class State
 {
 private:
 	State() {}
-	~State() {} //Delete DefaultShader?
+	~State() {}
 public:
 	static std::shared_ptr<Shader>	defaultShader;
 	static glm::mat4 				projectionMatrix;
